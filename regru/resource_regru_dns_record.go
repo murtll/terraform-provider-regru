@@ -2,7 +2,6 @@ package regru
 
 import (
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -40,8 +39,6 @@ func resourceRegruDNSRecord() *schema.Resource {
 }
 
 func resourceRegruDNSRecordCreate(d *schema.ResourceData, m interface{}) error {
-	log.Printf("[CREATE]: %v", d)
-
 	record_type := d.Get("type").(string)
 	record_name := d.Get("name").(string)
 	value := d.Get("record").(string)
@@ -93,21 +90,16 @@ func resourceRegruDNSRecordCreate(d *schema.ResourceData, m interface{}) error {
 
 	resp, err := c.doRequest(request, "zone", action)
 	if err != nil {
-		log.Printf("[CREATEERR]: %v", err)
 		return err
 	}
 	if resp.HasError() != nil {
-		log.Printf("[CREATEERR]: %v", resp.HasError())
 		return resp.HasError()
 	}
 	d.SetId(strings.Join([]string{record_name, zone}, "."))
-	log.Printf("[CREATE]: %v", d)
-
 	return nil
 }
 
 func resourceRegruDNSRecordRead(d *schema.ResourceData, m interface{}) error {
-	log.Printf("[READ]: %v", d)
 	return nil
 }
 
