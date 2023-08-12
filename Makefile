@@ -4,3 +4,6 @@ path := $$HOME/.terraform.d/plugins/github.com/murtll/regru/${version}/linux_amd
 build:
 	mkdir -p ${path}
 	go build -o ${path}/terraform-provider-regru_${version}
+
+get-go-version:
+	@grep ^go go.mod | awk '{ print $$2 }'
